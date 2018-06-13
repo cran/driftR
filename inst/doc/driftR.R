@@ -7,15 +7,16 @@
 #  devtools::install_github("shaughnessyar/driftR")
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  waterTibble <- dr_readSonde(file = "sondeData.csv", defineVar = TRUE)
+#  waterTibble <- dr_read(file = "sondeData.csv", instrument = "Sonde",
+#                         defineVar = TRUE, cleanVar = TRUE, case = "snake")
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  waterTibble <- dr_readSonde(file = system.file("extdata", "rawData.csv", package = "driftR"),
-#                              defineVar = TRUE)
+#  waterTibble <- dr_read(file = system.file("extdata", "rawData.csv", package = "driftR"),
+#                         instrument = "Sonde", defineVar = TRUE, cleanVar= TRUE, case = "snake")
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  waterTibble <- dr_factor(waterTibble, corrFactor = corfac, dateVar= Date,
-#                           timeVar = Time, format = "MDY", keepDateTime = TRUE)
+#                           timeVar = Time, keepDateTime = TRUE)
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  waterTibble <- dr_correctOne(waterTibble, sourceVar = SpCond, cleanVar = SpCond_corr,
@@ -26,7 +27,31 @@
 #                             calStdLow = 7, calValHigh = 11.8, calStdHigh = 10, factorVar = corfac)
 
 ## ---- eval=FALSE---------------------------------------------------------
+#  # drop all data from the begining and end
 #  waterTibble <- dr_drop(waterTibble, head = 6, tail = 6)
+#  
+#  # drop all data over the date range
+#  waterTibble <- dr_drop(waterTibble, dateVar = Date, timeVar = Time,
+#                         from = "2018-01-03", to = "2018-01-06")
+#  waterTibble <- dr_drop(waterTibble, dateVar = Date, timeVar = Time, to = "2018-01-06")
+#  waterTibble <- dr_drop(waterTibble, dateVar = Date, timeVar = Time, from = "2018-01-03")
+#  
+#  #drop all data for observations that match the expression
+#  waterTibble <- dr_drop(waterTibble, exp = SpCond > 9000)
+#  waterTibble <- dr_drop(waterTibble, exp = turbidity < 0)
+#  waterTibble <- dr_drop(waterTibble, exp = pH >= 9)
+
+## ---- eval=FALSE---------------------------------------------------------
+#  # replace only the data from one variable over a date range
+#  waterTibble <- dr_replace(waterTibble, sourceVar = pH, overwrite = TRUE,
+#                            dateVar = Date, timeVar = Time, from = "2018-01-03", to = "2018-01-06")
+#  waterTibble <- dr_replace(waterTibble, sourceVar = pH, cleanVar = pH_NA, overwrite = FALSE,
+#                            dateVar = Date, timeVar = Time, from = "2018-01-03", to = "2018-01-06")
+#  
+#  # replace only the data from one variable using an expression
+#  waterTibble <- dr_replace(waterTibble, sourceVar = pH, overwrite = TRUE, exp = pH >= 9)
+#  waterTibble <- dr_replace(waterTibble, sourceVar = turbidity, cleanVar = turbidity_NA,
+#                            overwrite = FALSE, exp = turbidity < 0)
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  waterTibble <- rename(Turbidity = `Turbidity.`)
@@ -53,13 +78,13 @@
 #  
 #  # import data exported from a Sonde
 #  # example file located in the package
-#  waterTibble <- dr_readSonde(file = system.file("extdata", "rawData.csv", package="driftR"),
-#                              define = TRUE)
+#  waterTibble <- dr_read(file = system.file("extdata", "rawData.csv", package="driftR"),
+#                              instrument = "Sonde", define = TRUE)
 #  
 #  # calculate correction factors
 #  # results stored in new vector corrFac
 #  waterTibble <- dr_factor(waterTibble, corrFactor = corrFac, dateVar = Date,
-#                           timeVar = Time, format = "MDY", keepDateTime = TRUE)
+#                           timeVar = Time, keepDateTime = TRUE)
 #  
 #  # apply one-point calibration to SpCond;
 #  # results stored in new vector SpConde_Corr
@@ -91,6 +116,10 @@
 #  
 #  # drop observations to account for instrument equilibration
 #  waterTibble <- dr_drop(waterTibble, head=6, tail=6)
+#  
+#  # replace the pH data in the specified date range with NA
+#  waterTibble <- dr_replace(waterTibble, sourceVar = pH, overwite = TRUE, dateVar = Date,
+#                            timeVar = Time, from = "2018-02-05", to = "2018-02-09")
 #  
 #  # reorder variables
 #  waterTibble <- select(waterTibble, Date, Time, dateTime, SpCond, SpCond_Corr, pH, pH_Corr, pHmV,

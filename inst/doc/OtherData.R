@@ -34,20 +34,6 @@
 #    rename(time = a.very.long.time.variable.name)
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  dates <- c("2016/12/30", "2016/12/31", "2017/01/01", "2017/01/02", "2017/01/03")
-#  cleanDate <- as.Date(dates, format = "%Y/%m/%d")
-#  cleanDate <- strftime(cleanDate, format = "%m/%d/%Y")
-
-## ---- eval=FALSE---------------------------------------------------------
-#  dates <- c("2016/12/30", "2016/12/31", "2017/01/01", "2017/01/02", "2017/01/03")
-#  cleanDate <- as.Date(dates, format = "%Y/%m/%d")
-#  cleanDate <- as.character(cleanDate)
-
-## ---- eval=FALSE---------------------------------------------------------
-#  times <- c("10:06 AM", "3:24 PM", "1:08 PM", "12:00 PM", "3:38 AM")
-#  cleanTime <- format(strptime(times, "%I:%M %p"), format="%H:%M:%S")
-
-## ---- eval=FALSE---------------------------------------------------------
 #  waterTibble$measure <- as.numeric(waterTibble$measure)
 #  waterTibble$measure <- as.integer(waterTibble$measure)
 #  waterTibble$measure <- as.double(waterTibble$measure)
